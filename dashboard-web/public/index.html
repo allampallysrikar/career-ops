@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>career-ops Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0a0c;
+      --surface:  #111113;
+      --border:   #1e1e22;
+      --border2:  #2a2a2f;
+      --text:     #e2e2e8;
+      --muted:    #6b6b7a;
+      --accent:   #7c6af5;
+      --accent2:  #a78bfa;
+      --green:    #34d399;
+      --yellow:   #fbbf24;
+      --red:      #f87171;
+      --blue:     #60a5fa;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── Layout ── */
+    .app { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: 220px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .main {
+      margin-left: 220px;
+      flex: 1;
+      padding: 28px 32px;
+      max-width: 1400px;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar-logo {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .logo-mark {
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+    .nav-section { padding: 8px 12px 4px; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      cursor: pointer;
+      border-radius: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s;
+      border-left: 2px solid transparent;
+    }
+
+    .nav-item:hover { background: rgba(124,106,245,0.06); color: var(--text); }
+    .nav-item.active { color: var(--accent2); border-left-color: var(--accent); background: rgba(124,106,245,0.08); }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ── Intel Signal Badges ── */
+    .intel-grow    { color: #34d399; font-size: 13px; }
+    .intel-caution { color: #fbbf24; font-size: 13px; }
+    .intel-avoid   { color: #f87171; font-size: 13px; }
+
+    .intel-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s;
+    }
+    .intel-card:hover { border-color: var(--border2); }
+    .intel-card.grow   { border-left: 3px solid #34d399; }
+    .intel-card.caution { border-left: 3px solid #fbbf24; }
+    .intel-card.avoid  { border-left: 3px solid #f87171; }
+    .intel-company { font-weight: 600; font-size: 14px; }
+    .intel-summary { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .intel-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+    .intel-tag { font-size: 11px; padding: 2px 8px; background: rgba(255,255,255,0.04); border-radius: 4px; color: var(--muted); }
+
+    .intel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+    }
+
+    /* ── Referrals ── */
+    .referral-company {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+    .referral-company-name { font-weight: 600; font-size: 15px; margin-bottom: 10px; }
+    .referral-count { font-size: 11px; color: var(--accent2); background: rgba(124,106,245,0.12); padding: 2px 8px; border-radius: 10px; margin-left: 8px; }
+
+    /* ── ATS bar ── */
+    .ats-bar-wrap { display: flex; align-items: center; gap: 8px; }
+    .ats-bar-bg { flex: 1; height: 6px; background: var(--border2); border-radius: 3px; overflow: hidden; }
+    .ats-bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+    .ats-bar-fill.ats-strong   { background: #34d399; }
+    .ats-bar-fill.ats-moderate { background: #fbbf24; }
+    .ats-bar-fill.ats-weak     { background: #f87171; }
+    .ats-score-label { font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; min-width: 36px; text-align: right; }
+
+    /* ── Salary Bench ── */
+    .salary-table { width: 100%; border-collapse: collapse; }
+    .salary-table th, .salary-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); text-align: left; }
+    .salary-table th { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; background: rgba(255,255,255,0.02); }
+    .salary-table tr:hover td { background: rgba(255,255,255,0.015); }
+    .salary-table tr:last-child td { border-bottom: none; }
+    .salary-hot { color: #f97316; }
+    .salary-neutral { color: var(--muted); }
+    .salary-cooling { color: var(--blue); }
+    .salary-val { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
+    .salary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 14px;
+    }
+    .salary-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .salary-comp-name { font-weight: 700; font-size: 16px; }
+    .salary-role-name { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .salary-range-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+    .salary-range-item { text-align: center; background: rgba(255,255,255,0.03); border-radius: 8px; padding: 10px 16px; min-width: 80px; }
+    .salary-range-pct { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .salary-range-val { font-size: 18px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--accent2); }
+    .salary-tip { font-size: 12px; color: var(--muted); padding: 4px 0; }
+    .salary-tip::before { content: '💡 '; }
+
+    /* ── Skills Gap ── */
+    .gap-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .gap-card:hover { border-color: var(--border2); }
+    .gap-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .gap-title { font-weight: 600; font-size: 14px; }
+    .gap-fit-badge { font-size: 13px; font-weight: 700; font-family: 'JetBrains Mono', monospace; padding: 3px 10px; border-radius: 6px; }
+    .gap-fit-high { background: rgba(52,211,153,0.1); color: var(--green); }
+    .gap-fit-mid  { background: rgba(251,191,36,0.1);  color: var(--yellow); }
+    .gap-fit-low  { background: rgba(248,113,113,0.1); color: var(--red); }
+    .gap-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .gap-pill { font-size: 11px; padding: 2px 8px; border-radius: 10px; }
+    .gap-pill-critical  { background: rgba(248,113,113,0.1); color: var(--red); }
+    .gap-pill-important { background: rgba(251,191,36,0.1);  color: var(--yellow); }
+    .gap-pill-nicetohave { background: rgba(96,165,250,0.1); color: var(--blue); }
+
+    /* ── Apply Log ── */
+    .apply-log-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+    .apply-applied  { background: rgba(52,211,153,0.1); color: var(--green); }
+    .apply-dryrun   { background: rgba(96,165,250,0.1); color: var(--blue); }
+    .apply-error    { background: rgba(248,113,113,0.1); color: var(--red); }
+    .apply-stuck    { background: rgba(251,191,36,0.1); color: var(--yellow); }
+    .apply-noeasy   { background: rgba(255,255,255,0.05); color: var(--muted); }
+
+    /* ── Prep Sheets ── */
+    .prep-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      transition: border-color 0.2s;
+    }
+    .prep-card:hover { border-color: var(--accent); }
+    .prep-title { font-weight: 500; font-size: 14px; }
+    .prep-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ── Topbar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .page-title { font-size: 22px; font-weight: 700; }
+    .page-sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+    .topbar-actions { display: flex; gap: 8px; }
+
+    /* ── Buttons ── */
+    .btn {
+      padding: 8px 14px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent2); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: white; }
+    .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); color: white; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .card-title { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+
+    /* ── Stats Grid ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      transition: border-color 0.2s;
+    }
+    .stat-card:hover { border-color: var(--border2); }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label { font-size: 12px; color: var(--muted); }
+    .stat-trend { font-size: 11px; color: var(--green); margin-top: 4px; }
+
+    .v-accent   { color: var(--accent2); }
+    .v-green    { color: var(--green); }
+    .v-yellow   { color: var(--yellow); }
+    .v-red      { color: var(--red); }
+    .v-blue     { color: var(--blue); }
+
+    /* ── Charts Row ── */
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+    .chart-wrap { position: relative; height: 200px; }
+
+    /* ── Jobs Table ── */
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-title { font-weight: 600; font-size: 14px; }
+
+    .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .filter-chip {
+      padding: 4px 10px;
+      background: transparent;
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-chip:hover { border-color: var(--accent); color: var(--accent2); }
+    .filter-chip.active { background: rgba(124,106,245,0.15); border-color: var(--accent); color: var(--accent2); }
+
+    .search-input {
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: inherit;
+      width: 200px;
+    }
+    .search-input:focus { outline: none; border-color: var(--accent); }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead tr { background: rgba(255,255,255,0.02); }
+    th {
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.015); }
+
+    .job-title-cell { font-weight: 500; }
+    .job-company { color: var(--accent2); font-size: 12px; }
+
+    .score-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .score-high   { background: rgba(52,211,153,0.12); color: var(--green); }
+    .score-mid    { background: rgba(251,191,36,0.12);  color: var(--yellow); }
+    .score-low    { background: rgba(248,113,113,0.12); color: var(--red); }
+    .score-none   { color: var(--muted); font-size: 11px; }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .status-evaluada  { background: rgba(96,165,250,0.12); color: var(--blue); }
+    .status-aplicado  { background: rgba(124,106,245,0.12); color: var(--accent2); }
+    .status-respondido { background: rgba(251,191,36,0.12); color: var(--yellow); }
+    .status-entrevista { background: rgba(52,211,153,0.12); color: var(--green); }
+    .status-oferta    { background: rgba(52,211,153,0.2);  color: #6ee7b7; border: 1px solid rgba(52,211,153,0.3); }
+    .status-rechazada { background: rgba(248,113,113,0.08); color: var(--red); }
+    .status-default   { background: rgba(255,255,255,0.05); color: var(--muted); }
+
+    .action-btn {
+      background: none;
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .action-btn:hover { border-color: var(--accent); color: var(--accent2); }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 40px; margin-bottom: 12px; }
+    .empty-title { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--text); }
+
+    /* ── Sections ── */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ── Loading ── */
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-row td { text-align: center; padding: 40px; color: var(--muted); }
+
+    /* ── Contacts Section ── */
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: 20px;
+    }
+
+    .contact-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .contact-name { font-weight: 600; margin-bottom: 2px; }
+    .contact-role { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .contact-email { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent2); }
+    .contact-meta { display: flex; gap: 8px; margin-top: 8px; }
+    .contact-company { font-size: 11px; color: var(--muted); background: var(--border); padding: 2px 6px; border-radius: 3px; }
+
+    .verified-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; }
+    .verified-valid { background: var(--green); }
+    .verified-unknown { background: var(--yellow); }
+
+    /* ── Pipeline section ── */
+    .pipeline-list { padding: 20px; }
+    .pipeline-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      margin-bottom: 8px;
+    }
+    .pipeline-item:hover { border-color: var(--border2); }
+    .pipeline-url { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent2); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .pipeline-label { font-size: 12px; font-weight: 500; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 1000;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.25s;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: var(--green); }
+    .toast.error { border-color: var(--red); }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">career-ops</div>
+      <div class="logo-sub">Job Pipeline Dashboard</div>
+    </div>
+    <div class="nav-section">Pipeline</div>
+    <div class="nav-item active" onclick="showSection('overview')">📊 Overview</div>
+    <div class="nav-item" onclick="showSection('jobs')">💼 Applications</div>
+    <div class="nav-item" onclick="showSection('pipeline')">⚡ Pending Pipeline</div>
+    <div class="nav-section" style="margin-top:8px;">Outreach</div>
+    <div class="nav-item" onclick="showSection('contacts')">📬 Contacts</div>
+    <div class="nav-section" style="margin-top:8px;">Intelligence</div>
+    <div class="nav-item" onclick="showSection('intel')">🟢 Company Intel</div>
+    <div class="nav-item" onclick="showSection('referrals')">🤝 Referrals</div>
+    <div class="nav-item" onclick="showSection('ats')">🎯 ATS Scores</div>
+    <div class="nav-item" onclick="showSection('prep')">🎤 Interview Prep</div>
+    <div class="nav-item" onclick="showSection('salary')">💰 Salary Bench</div>
+    <div class="nav-item" onclick="showSection('gaps')">🧠 Skills Gap</div>
+    <div class="nav-item" onclick="showSection('applylog')">🤖 Auto Apply</div>
+    <div class="nav-section" style="margin-top:8px;">Tools</div>
+    <div class="nav-item" onclick="refreshAll()">🔄 Refresh Data</div>
+    <div class="sidebar-footer">
+      v2.2.0<br>
+      <span id="lastUpdated" style="color:var(--muted)">Loading...</span>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ── Overview Section ── -->
+    <section class="section active" id="section-overview">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Overview</div>
+          <div class="page-sub">Your full job search funnel at a glance</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="refreshAll()">🔄 Refresh</button>
+          <button class="btn btn-primary" onclick="showSection('jobs')">View All Jobs</button>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><div class="stat-value v-accent" id="s-total">—</div><div class="stat-label">Total Jobs</div></div>
+        <div class="stat-card"><div class="stat-value v-blue" id="s-applied">—</div><div class="stat-label">Applied</div></div>
+        <div class="stat-card"><div class="stat-value v-green" id="s-interviews">—</div><div class="stat-label">Interviews</div></div>
+        <div class="stat-card"><div class="stat-value v-yellow" id="s-offers">—</div><div class="stat-label">Offers</div></div>
+        <div class="stat-card"><div class="stat-value v-accent" id="s-score">—</div><div class="stat-label">Avg AI Score</div></div>
+        <div class="stat-card"><div class="stat-value v-red" id="s-rejected">—</div><div class="stat-label">Rejected</div></div>
+        <div class="stat-card"><div class="stat-value v-green" id="s-ats">—</div><div class="stat-label">Avg ATS Score</div></div>
+        <div class="stat-card"><div class="stat-value" id="s-intel">—</div><div class="stat-label">Companies Tracked</div></div>
+        <div class="stat-card"><div class="stat-value v-accent" id="s-salary">—</div><div class="stat-label">Avg Market Base p50</div></div>
+      </div>
+
+      <div class="charts-row">
+        <div class="card">
+          <div class="card-title">Applications by Status</div>
+          <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Funnel</div>
+          <div class="chart-wrap"><canvas id="funnelChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Jobs Section ── -->
+    <section class="section" id="section-jobs">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Applications</div>
+          <div class="page-sub">All tracked job applications</div>
+        </div>
+        <div class="topbar-actions">
+          <input class="search-input" type="text" placeholder="Search jobs..." id="searchInput" oninput="filterJobs()">
+          <button class="btn" onclick="refreshAll()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header">
+          <div class="table-title">Job Applications</div>
+          <div class="filters" id="statusFilters">
+            <div class="filter-chip active" data-filter="all" onclick="setFilter('all', this)">All</div>
+            <div class="filter-chip" data-filter="Evaluada" onclick="setFilter('Evaluada', this)">Evaluated</div>
+            <div class="filter-chip" data-filter="Aplicado" onclick="setFilter('Aplicado', this)">Applied</div>
+            <div class="filter-chip" data-filter="Respondido" onclick="setFilter('Respondido', this)">Replied</div>
+            <div class="filter-chip" data-filter="Entrevista" onclick="setFilter('Entrevista', this)">Interview</div>
+            <div class="filter-chip" data-filter="Oferta" onclick="setFilter('Oferta', this)">Offer</div>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Company</th>
+              <th>Role</th>
+              <th>AI Score</th>
+              <th>ATS</th>
+              <th>Intel</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="jobsBody">
+            <tr class="loading-row"><td colspan="9"><span class="spinner"></span> Loading jobs...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Pipeline Section ── -->
+    <section class="section" id="section-pipeline">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Pending Pipeline</div>
+          <div class="page-sub">URLs queued for AI evaluation</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <div class="pipeline-list" id="pipelineList">
+          <div class="empty-state"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Company Intel Section ── -->
+    <section class="section" id="section-intel">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Company Intel</div>
+          <div class="page-sub">Health signals — 🟢 Grow · 🟡 Caution · 🔴 Avoid</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="loadIntel()">🔄 Refresh</button>
+        </div>
+      </div>
+      <div id="intelGrid" class="intel-grid">
+        <div class="empty-state"><span class="spinner"></span></div>
+      </div>
+    </section>
+
+    <!-- ── Referrals Section ── -->
+    <section class="section" id="section-referrals">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Referral Network</div>
+          <div class="page-sub">LinkedIn 1st-degree connections at your pipeline companies</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="loadReferrals()">🔄 Refresh</button>
+        </div>
+      </div>
+      <div id="referralsList">
+        <div class="empty-state"><span class="spinner"></span></div>
+      </div>
+    </section>
+
+    <!-- ── ATS Scores Section ── -->
+    <section class="section" id="section-ats">
+      <div class="topbar">
+        <div>
+          <div class="page-title">ATS Scores</div>
+          <div class="page-sub">Resume compatibility scores — 80+ Strong · 60+ Moderate · &lt;60 Weak</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="loadATS()">🔄 Refresh</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Company</th><th>Role</th><th>ATS Score</th><th>Keywords</th><th>Formatting</th><th>AI Fit</th><th>Checked</th></tr>
+          </thead>
+          <tbody id="atsBody">
+            <tr class="loading-row"><td colspan="7"><span class="spinner"></span> Loading ATS data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Interview Prep Section ── -->
+    <section class="section" id="section-prep">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Interview Prep</div>
+          <div class="page-sub">AI-generated mock interview sheets</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="loadPrep()">🔄 Refresh</button>
+        </div>
+      </div>
+      <div id="prepList">
+        <div class="empty-state"><span class="spinner"></span></div>
+      </div>
+    </section>
+
+    <!-- ── Salary Bench Section ── -->
+    <section class="section" id="section-salary">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Salary Benchmarks</div>
+          <div class="page-sub">Market compensation data — base, equity, total comp, negotiation tips</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="loadSalary()">🔄 Refresh</button>
+        </div>
+      </div>
+      <div id="salaryContent">
+        <div class="empty-state"><span class="spinner"></span></div>
+      </div>
+    </section>
+
+    <!-- ── Skills Gap Section ── -->
+    <section class="section" id="section-gaps">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Skills Gap Analysis</div>
+          <div class="page-sub">CV vs. job description — critical gaps, learning resources, quick wins</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="loadGaps()">🔄 Refresh</button>
+        </div>
+      </div>
+      <div id="gapsContent">
+        <div class="empty-state"><span class="spinner"></span></div>
+      </div>
+    </section>
+
+    <!-- ── LinkedIn Apply Log Section ── -->
+    <section class="section" id="section-applylog">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Auto Apply Log</div>
+          <div class="page-sub">LinkedIn Easy Apply bot history — outcomes, screenshots, pipeline status</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="loadApplyLog()">🔄 Refresh</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Company</th><th>Role</th><th>Outcome</th><th>Timestamp</th><th>URL</th></tr>
+          </thead>
+          <tbody id="applyLogBody">
+            <tr class="loading-row"><td colspan="5"><span class="spinner"></span> Loading apply log...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Contacts Section ── -->
+    <section class="section" id="section-contacts">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Contacts</div>
+          <div class="page-sub">Hiring managers and recruiters found via Snov.io</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" onclick="refreshAll()">🔄 Refresh</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <div class="contacts-grid" id="contactsGrid">
+          <div class="empty-state"><span class="spinner"></span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────────
+let allJobs = [];
+let atsData   = {};   // company.toLowerCase() → { score, breakdown }
+let intelData = {};   // company.toLowerCase() → { signal, summary, ... }
+let salaryData = {};  // company::role → salary entry
+let activeFilter = 'all';
+let activeSection = 'overview';
+let statusChart = null;
+let funnelChart = null;
+
+// ── Navigation ─────────────────────────────────────────────────────────────────
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-' + name)?.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.textContent.toLowerCase().includes(name)) n.classList.add('active');
+  });
+  activeSection = name;
+  if (name === 'pipeline')  loadPipeline();
+  if (name === 'contacts')  loadContacts();
+  if (name === 'intel')     loadIntel();
+  if (name === 'referrals') loadReferrals();
+  if (name === 'ats')       loadATS();
+  if (name === 'prep')      loadPrep();
+  if (name === 'salary')    loadSalary();
+  if (name === 'gaps')      loadGaps();
+  if (name === 'applylog')  loadApplyLog();
+}
+
+// ── Data Loading ───────────────────────────────────────────────────────────────
+async function fetchJSON(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+async function loadStats() {
+  const stats = await fetchJSON('/api/stats');
+  document.getElementById('s-total').textContent      = stats.total || 0;
+  document.getElementById('s-applied').textContent    = stats.applied || 0;
+  document.getElementById('s-interviews').textContent = stats.interviews || 0;
+  document.getElementById('s-offers').textContent     = stats.offers || 0;
+  document.getElementById('s-rejected').textContent   = stats.rejected || 0;
+  document.getElementById('s-score').textContent      = stats.avgScore ? stats.avgScore + '/5' : '—';
+
+  // Load ATS + Intel stats for overview
+  try {
+    const atsArr = await fetchJSON('/api/ats');
+    atsData = {};
+    atsArr.forEach(e => { atsData[(e.company||'').toLowerCase()] = e; });
+    if (atsArr.length > 0) {
+      const avg = Math.round(atsArr.reduce((s, e) => s + (e.score||0), 0) / atsArr.length);
+      const el = document.getElementById('s-ats');
+      el.textContent = avg + '/100';
+      el.className = 'stat-value ' + (avg >= 80 ? 'v-green' : avg >= 60 ? 'v-yellow' : 'v-red');
+    }
+  } catch {}
+
+  try {
+    const intel = await fetchJSON('/api/intel');
+    intelData = intel;
+    const count = Object.keys(intel).length;
+    if (count > 0) {
+      const grow   = Object.values(intel).filter(v => v.signal === 'grow').length;
+      const avoid  = Object.values(intel).filter(v => v.signal === 'avoid').length;
+      const el = document.getElementById('s-intel');
+      el.textContent = count;
+      el.title = `🟢 ${grow} grow · 🔴 ${avoid} avoid`;
+    }
+  } catch {}
+
+  try {
+    const salaryRaw = await fetchJSON('/api/salary');
+    salaryData = salaryRaw;
+    const entries = Object.values(salaryRaw).filter(e => e.baseSalary?.p50);
+    if (entries.length > 0) {
+      const avgP50 = Math.round(entries.reduce((s, e) => s + e.baseSalary.p50, 0) / entries.length / 1000);
+      const salEl = document.getElementById('s-salary');
+      if (salEl) { salEl.textContent = '$' + avgP50 + 'K'; }
+    }
+  } catch {}
+
+  renderCharts(stats);
+}
+
+async function loadJobs() {
+  allJobs = await fetchJSON('/api/jobs');
+  renderJobs(allJobs);
+  document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+}
+
+async function loadPipeline() {
+  const { content } = await fetchJSON('/api/pipeline');
+  const items = (content.match(/^- \[.\].+/gm) || []);
+  const el = document.getElementById('pipelineList');
+  if (items.length === 0) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">⚡</div><div class="empty-title">Pipeline is empty</div><p>Use the Chrome extension or add URLs to data/pipeline.md</p></div>`;
+    return;
+  }
+  el.innerHTML = items.map(item => {
+    const done = item.startsWith('- [x]');
+    const text = item.replace(/^- \[.\]\s*/, '').split(' | ');
+    const url = text[0] || '';
+    const label = text[1] || url;
+    return `<div class="pipeline-item">
+      <span>${done ? '✅' : '⏳'}</span>
+      <div class="pipeline-label">${label}</div>
+      <span class="pipeline-url">${url}</span>
+      <a href="${url}" target="_blank" class="action-btn">Open ↗</a>
+    </div>`;
+  }).join('');
+}
+
+async function loadContacts() {
+  const contacts = await fetchJSON('/api/contacts');
+  const el = document.getElementById('contactsGrid');
+  if (contacts.length === 0) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No contacts yet</div><p>Run: node contact-finder.mjs --all</p></div>`;
+    return;
+  }
+  el.innerHTML = contacts.map(c => `
+    <div class="contact-card">
+      <div class="contact-name">${c.name || '—'}</div>
+      <div class="contact-role">${c.role || 'Unknown role'}</div>
+      <div class="contact-email">
+        <span class="verified-dot ${c.verified === 'valid' ? 'verified-valid' : 'verified-unknown'}"></span>
+        ${c.email}
+      </div>
+      <div class="contact-meta">
+        <span class="contact-company">${c.company}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function loadIntel() {
+  const el = document.getElementById('intelGrid');
+  try {
+    const intel = await fetchJSON('/api/intel');
+    intelData = intel;
+    const entries = Object.values(intel);
+    if (entries.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🏢</div><div class="empty-title">No intel yet</div><p>Run: node company-intel.mjs --all</p></div>`;
+      return;
+    }
+    const order = { avoid: 0, caution: 1, grow: 2 };
+    entries.sort((a, b) => (order[a.signal]??1) - (order[b.signal]??1));
+    el.innerHTML = entries.map(e => {
+      const emoji = e.signal === 'grow' ? '🟢' : e.signal === 'avoid' ? '🔴' : '🟡';
+      const posArr = (e.positives||[]).slice(0,2).map(p => `<span class="intel-tag">✅ ${p.slice(0,40)}</span>`).join('');
+      const negArr = (e.negatives||[]).slice(0,2).map(n => `<span class="intel-tag">⚠️ ${n.slice(0,40)}</span>`).join('');
+      const hiring = e.hiringSignal === 'active' ? '🚀 Hiring' : e.hiringSignal === 'frozen' ? '🧊 Frozen' : e.hiringSignal === 'selective' ? '🎯 Selective' : '';
+      return `<div class="intel-card ${e.signal||'caution'}">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:18px">${emoji}</span>
+          <div class="intel-company">${e.company}</div>
+          ${hiring ? `<span class="intel-tag" style="margin-left:auto">${hiring}</span>` : ''}
+        </div>
+        <div class="intel-summary">${(e.summary||'').slice(0,140)}</div>
+        <div class="intel-meta">${posArr}${negArr}</div>
+        ${e.lastFunding ? `<div style="font-size:11px;color:var(--muted)">💰 ${e.lastFunding}</div>` : ''}
+      </div>`;
+    }).join('');
+  } catch(err) {
+    el.innerHTML = `<div class="empty-state"><p>Error loading intel: ${err.message}</p></div>`;
+  }
+}
+
+async function loadReferrals() {
+  const el = document.getElementById('referralsList');
+  try {
+    const sections = await fetchJSON('/api/referrals');
+    if (sections.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🤝</div><div class="empty-title">No referrals found yet</div><p>Run: node referral-finder.mjs --connections ~/Downloads/Connections.csv --all</p></div>`;
+      return;
+    }
+    el.innerHTML = sections.map(s => `
+      <div class="referral-company">
+        <div class="referral-company-name">${s.company} <span class="referral-count">${s.connections.length} connection${s.connections.length>1?'s':''}</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${s.connections.map(c => `
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:6px">
+              <span style="font-size:18px">👤</span>
+              <div>
+                <div style="font-weight:500;font-size:13px">${c.name}</div>
+                <div style="font-size:11px;color:var(--muted)">${c.position||'Unknown role'}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  } catch(err) {
+    el.innerHTML = `<div class="empty-state"><p>Error: ${err.message}</p></div>`;
+  }
+}
+
+async function loadATS() {
+  const tbody = document.getElementById('atsBody');
+  try {
+    const arr = await fetchJSON('/api/ats');
+    if (arr.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🎯</div><div class="empty-title">No ATS scores yet</div><p>Run: node ats-check.mjs --all</p></div></td></tr>`;
+      return;
+    }
+    const sorted = [...arr].sort((a,b) => (b.score||0) - (a.score||0));
+    tbody.innerHTML = sorted.map(e => {
+      const pct = e.score || 0;
+      const cls = pct >= 80 ? 'ats-strong' : pct >= 60 ? 'ats-moderate' : 'ats-weak';
+      const grade = pct >= 80 ? '🟢' : pct >= 60 ? '🟡' : '🔴';
+      const b = e.breakdown || {};
+      const kwScore  = b.keywords?.score  ?? '—';
+      const kwMax    = b.keywords?.max    ?? 40;
+      const fmtScore = b.formatting?.score ?? '—';
+      const fmtMax   = b.formatting?.max  ?? 35;
+      const aiScore  = b.aiAnalysis?.score ?? '—';
+      const aiMax    = b.aiAnalysis?.max   ?? 25;
+      const checked  = e.checkedAt ? new Date(e.checkedAt).toLocaleDateString() : '—';
+      return `<tr>
+        <td><div class="job-company">${e.company||'—'}</div></td>
+        <td style="font-size:12px;color:var(--muted)">${e.role||'—'}</td>
+        <td>
+          <div class="ats-bar-wrap">
+            <div class="ats-bar-bg"><div class="ats-bar-fill ${cls}" style="width:${pct}%"></div></div>
+            <span class="ats-score-label" style="color:${pct>=80?'var(--green)':pct>=60?'var(--yellow)':'var(--red)'}">${grade} ${pct}</span>
+          </div>
+        </td>
+        <td style="font-size:12px">${kwScore}/${kwMax}</td>
+        <td style="font-size:12px">${fmtScore}/${fmtMax}</td>
+        <td style="font-size:12px">${aiScore}/${aiMax}</td>
+        <td style="font-size:11px;color:var(--muted)">${checked}</td>
+      </tr>`;
+    }).join('');
+  } catch(err) {
+    tbody.innerHTML = `<tr><td colspan="7">Error: ${err.message}</td></tr>`;
+  }
+}
+
+async function loadPrep() {
+  const el = document.getElementById('prepList');
+  try {
+    const sheets = await fetchJSON('/api/prep');
+    if (sheets.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🎤</div><div class="empty-title">No prep sheets yet</div><p>Move a job to "Entrevista" status, then run: node interview-prep.mjs --all</p></div>`;
+      return;
+    }
+    el.innerHTML = sheets.map(s => {
+      const name = s.file.replace(/\.md$/, '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      return `<div class="prep-card">
+        <div>
+          <div class="prep-title">🎤 ${name}</div>
+          <div class="prep-sub">${s.path}</div>
+        </div>
+        <span style="font-size:11px;color:var(--accent2);background:rgba(124,106,245,0.1);padding:4px 10px;border-radius:6px">Ready</span>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    el.innerHTML = `<div class="empty-state"><p>Error: ${err.message}</p></div>`;
+  }
+}
+
+async function loadSalary() {
+  const el = document.getElementById('salaryContent');
+  try {
+    const data = await fetchJSON('/api/salary');
+    salaryData = data;
+    const entries = Object.values(data);
+    if (entries.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">💰</div><div class="empty-title">No salary data yet</div><p>Run: node salary-bench.mjs --all --report</p></div>`;
+      return;
+    }
+    const sorted = entries.sort((a, b) => (b.baseSalary?.p50 || 0) - (a.baseSalary?.p50 || 0));
+    const fmt = n => n ? '$' + Math.round(n / 1000) + 'K' : '—';
+    const signalBadge = s => s === 'hot' ? '<span class="salary-hot">🔥 Hot</span>' : s === 'cooling' ? '<span class="salary-cooling">❄️ Cooling</span>' : '<span class="salary-neutral">🟡 Neutral</span>';
+    el.innerHTML = sorted.map(e => {
+      const tips = (e.negotiationTips || []).map(t => `<div class="salary-tip">${t}</div>`).join('');
+      return `<div class="salary-card">
+        <div class="salary-card-header">
+          <div>
+            <div class="salary-comp-name">${e.company}</div>
+            <div class="salary-role-name">${e.role} · ${e.location || 'Remote'}</div>
+          </div>
+          <div style="text-align:right">
+            ${signalBadge(e.marketSignal)}
+            <div style="font-size:11px;color:var(--muted);margin-top:4px">${e.dataQuality === 'high' ? '✅ High confidence' : e.dataQuality === 'low' ? '⚠️ Low confidence' : '🔵 Medium confidence'}</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Base Salary</div>
+        <div class="salary-range-row">
+          <div class="salary-range-item"><div class="salary-range-pct">p25</div><div class="salary-range-val">${fmt(e.baseSalary?.p25)}</div></div>
+          <div class="salary-range-item"><div class="salary-range-pct">p50</div><div class="salary-range-val">${fmt(e.baseSalary?.p50)}</div></div>
+          <div class="salary-range-item"><div class="salary-range-pct">p75</div><div class="salary-range-val">${fmt(e.baseSalary?.p75)}</div></div>
+          <div class="salary-range-item"><div class="salary-range-pct">p90</div><div class="salary-range-val">${fmt(e.baseSalary?.p90)}</div></div>
+          <div class="salary-range-item" style="border-left:1px solid var(--border2)"><div class="salary-range-pct">TC p50</div><div class="salary-range-val" style="color:var(--green)">${fmt(e.totalComp?.p50)}</div></div>
+          <div class="salary-range-item"><div class="salary-range-pct">TC p90</div><div class="salary-range-val" style="color:var(--green)">${fmt(e.totalComp?.p90)}</div></div>
+        </div>
+        <div style="display:flex;gap:20px;margin:10px 0;flex-wrap:wrap">
+          <div style="font-size:12px"><span style="color:var(--muted)">Bonus</span> <strong>${e.bonus || '—'}</strong></div>
+          <div style="font-size:12px"><span style="color:var(--muted)">Equity</span> <strong>${e.equity?.typical || '—'}</strong></div>
+          <div style="font-size:12px"><span style="color:var(--muted)">Vesting</span> ${e.equity?.vestingSchedule || '—'}</div>
+        </div>
+        ${tips ? `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">${tips}</div>` : ''}
+      </div>`;
+    }).join('');
+  } catch(err) {
+    el.innerHTML = `<div class="empty-state"><p>Error: ${err.message}</p></div>`;
+  }
+}
+
+async function loadGaps() {
+  const el = document.getElementById('gapsContent');
+  try {
+    const sheets = await fetchJSON('/api/gaps');
+    if (sheets.length === 0) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🧠</div><div class="empty-title">No gap analysis yet</div><p>Run: node skills-gap.mjs --all</p></div>`;
+      return;
+    }
+    el.innerHTML = sheets.map(s => {
+      const name = s.file.replace(/\.md$/, '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const fit = s.fit;
+      const fitClass = fit === null ? '' : fit >= 75 ? 'gap-fit-high' : fit >= 50 ? 'gap-fit-mid' : 'gap-fit-low';
+      const fitLabel = fit !== null ? `${fit}%` : '—';
+      const critCount = s.criticalCount || 0;
+      return `<div class="gap-card" onclick="window.open('${s.path}','_blank')">
+        <div class="gap-card-header">
+          <div>
+            <div class="gap-title">🧠 ${name}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:3px">${s.path}</div>
+          </div>
+          <span class="gap-fit-badge ${fitClass}">Fit ${fitLabel}</span>
+        </div>
+        <div class="gap-pills">
+          ${critCount > 0 ? `<span class="gap-pill gap-pill-critical">🔴 ${critCount} critical</span>` : ''}
+          <span class="gap-pill gap-pill-nicetohave">📄 View full analysis ↗</span>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    el.innerHTML = `<div class="empty-state"><p>Error: ${err.message}</p></div>`;
+  }
+}
+
+async function loadApplyLog() {
+  const tbody = document.getElementById('applyLogBody');
+  try {
+    const log = await fetchJSON('/api/apply-log');
+    if (log.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">🤖</div><div class="empty-title">No auto-apply runs yet</div><p>Run: node linkedin-apply.mjs --dry-run --all</p></div></td></tr>`;
+      return;
+    }
+    const sorted = [...log].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    tbody.innerHTML = sorted.map(e => {
+      const outcomeClass = {applied:'apply-applied', 'dry-run':'apply-dryrun', error:'apply-error', stuck:'apply-stuck', 'no-easy-apply':'apply-noeasy'}[e.outcome] || 'apply-noeasy';
+      const outcomeLabel = {applied:'✅ Applied', 'dry-run':'🔵 Dry Run', error:'❌ Error', stuck:'⚠️ Stuck', 'no-easy-apply':'⏭️ No Easy Apply', 'max-steps':'⚠️ Max Steps'}[e.outcome] || e.outcome;
+      const ts = e.timestamp ? new Date(e.timestamp).toLocaleString() : '—';
+      const shortUrl = (e.url || '').replace('https://www.linkedin.com/jobs/view/', 'linkedin…/').slice(0, 50);
+      return `<tr>
+        <td><div class="job-company">${e.company || '—'}</div></td>
+        <td style="font-size:12px;color:var(--muted)">${e.jobTitle || '—'}</td>
+        <td><span class="apply-log-badge ${outcomeClass}">${outcomeLabel}</span></td>
+        <td style="font-size:11px;color:var(--muted)">${ts}</td>
+        <td><a href="${e.url||'#'}" target="_blank" style="font-size:11px;color:var(--accent2);text-decoration:none;font-family:'JetBrains Mono',monospace">${shortUrl}</a></td>
+      </tr>`;
+    }).join('');
+  } catch(err) {
+    tbody.innerHTML = `<tr><td colspan="5">Error: ${err.message}</td></tr>`;
+  }
+}
+
+async function refreshAll() {
+  await loadStats();
+  await loadJobs();
+  toast('✅ Data refreshed');
+}
+
+// ── Jobs Table Rendering ───────────────────────────────────────────────────────
+function getStatusClass(status) {
+  const s = (status || '').toLowerCase();
+  if (s.includes('evaluad')) return 'status-evaluada';
+  if (s.includes('aplicad') || s.includes('applied')) return 'status-aplicado';
+  if (s.includes('respond')) return 'status-respondido';
+  if (s.includes('entrevis') || s.includes('interview')) return 'status-entrevista';
+  if (s.includes('oferta') || s.includes('offer')) return 'status-oferta';
+  if (s.includes('rechaz') || s.includes('reject')) return 'status-rechazada';
+  return 'status-default';
+}
+
+function getScorePill(score) {
+  if (!score) return '<span class="score-none">—</span>';
+  const cls = score >= 4.0 ? 'score-high' : score >= 3.0 ? 'score-mid' : 'score-low';
+  return `<span class="score-pill ${cls}">⭐ ${score}</span>`;
+}
+
+function getATSCell(company) {
+  const key   = (company || '').toLowerCase();
+  const entry = atsData[key];
+  if (!entry) return '<span style="color:var(--muted);font-size:11px">—</span>';
+  const pct = entry.score || 0;
+  const emoji = pct >= 80 ? '🟢' : pct >= 60 ? '🟡' : '🔴';
+  const col   = pct >= 80 ? 'var(--green)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+  return `<span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:${col}">${emoji} ${pct}</span>`;
+}
+
+function getIntelCell(company) {
+  const key   = (company || '').toLowerCase();
+  const intel = intelData[key];
+  if (!intel) return '<span style="color:var(--muted);font-size:11px">—</span>';
+  const emoji = intel.signal === 'grow' ? '🟢' : intel.signal === 'avoid' ? '🔴' : '🟡';
+  const label = intel.signal === 'grow' ? 'Grow' : intel.signal === 'avoid' ? 'Avoid' : 'Caution';
+  return `<span style="font-size:12px" title="${(intel.summary||'').slice(0,100)}">${emoji} ${label}</span>`;
+}
+
+function renderJobs(jobs) {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = jobs.filter(j => {
+    const matchesFilter = activeFilter === 'all' || (j.status || '').toLowerCase().includes(activeFilter.toLowerCase());
+    const matchesSearch = !q || `${j.company} ${j.role} ${j.status}`.toLowerCase().includes(q);
+    return matchesFilter && matchesSearch;
+  });
+
+  const tbody = document.getElementById('jobsBody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No jobs found</div><p>Try a different filter or search term</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(j => `
+    <tr>
+      <td style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px">${j.id}</td>
+      <td style="color:var(--muted);font-size:12px">${j.date}</td>
+      <td><div class="job-company">${j.company || '—'}</div></td>
+      <td><div class="job-title-cell">${j.role || '—'}</div></td>
+      <td>${getScorePill(j.score)}</td>
+      <td>${getATSCell(j.company)}</td>
+      <td>${getIntelCell(j.company)}</td>
+      <td><span class="status-badge ${getStatusClass(j.status)}">${j.status || '—'}</span></td>
+      <td style="display:flex;gap:4px;align-items:center">
+        ${j.pdf ? `<button class="action-btn" title="Open PDF">📄</button>` : ''}
+        ${j.report ? `<button class="action-btn" title="View Report">📋</button>` : ''}
+        <button class="action-btn" onclick="updateStatus('${j.id}')">✏️</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterJobs() { renderJobs(allJobs); }
+
+function setFilter(filter, el) {
+  activeFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderJobs(allJobs);
+}
+
+async function updateStatus(id) {
+  const statuses = ['Evaluada','Aplicado','Respondido','Contacto','Entrevista','Oferta','Rechazada','Descartada'];
+  const choice = prompt(`Update status for job #${id}:\n\n${statuses.map((s,i) => `${i+1}. ${s}`).join('\n')}\n\nEnter number:`);
+  const idx = parseInt(choice) - 1;
+  if (isNaN(idx) || idx < 0 || idx >= statuses.length) return;
+  const status = statuses[idx];
+  await fetch(`/api/job/${id}`, { method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ status }) });
+  toast(`✅ Status updated to ${status}`);
+  await loadJobs();
+}
+
+// ── Charts ─────────────────────────────────────────────────────────────────────
+function renderCharts(stats) {
+  const byStatus = stats.byStatus || {};
+  const labels = Object.keys(byStatus);
+  const values = Object.values(byStatus);
+
+  const COLORS = ['#7c6af5','#60a5fa','#34d399','#fbbf24','#f87171','#a78bfa','#6ee7b7','#93c5fd'];
+
+  // Destroy existing
+  if (statusChart) statusChart.destroy();
+  if (funnelChart) funnelChart.destroy();
+
+  const chartDefaults = {
+    plugins: { legend: { labels: { color: '#6b6b7a', font: { size: 11, family: 'Inter' } } } },
+  };
+
+  const ctx1 = document.getElementById('statusChart').getContext('2d');
+  statusChart = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data: values, backgroundColor: COLORS.slice(0, labels.length), borderWidth: 0, hoverOffset: 4 }],
+    },
+    options: { ...chartDefaults, cutout: '65%', maintainAspectRatio: false, responsive: true },
+  });
+
+  const ctx2 = document.getElementById('funnelChart').getContext('2d');
+  const funnelStages = [
+    { label: 'Evaluated', val: stats.total || 0 },
+    { label: 'Applied',   val: stats.applied || 0 },
+    { label: 'Replied',   val: (byStatus['Respondido'] || 0) },
+    { label: 'Interview', val: stats.interviews || 0 },
+    { label: 'Offer',     val: stats.offers || 0 },
+  ];
+
+  funnelChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: funnelStages.map(s => s.label),
+      datasets: [{
+        data: funnelStages.map(s => s.val),
+        backgroundColor: ['#7c6af5','#60a5fa','#fbbf24','#34d399','#6ee7b7'],
+        borderRadius: 5,
+        borderSkipped: false,
+      }],
+    },
+    options: {
+      ...chartDefaults,
+      indexAxis: 'y',
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#6b6b7a', font: { size: 11 } }, grid: { color: '#1e1e22' } },
+        y: { ticks: { color: '#9999aa', font: { size: 11 } }, grid: { display: false } },
+      },
+    },
+  });
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────────
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast ${type} show`;
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+(async () => {
+  try {
+    await loadStats();
+    await loadJobs();
+  } catch (err) {
+    toast('❌ Could not connect to server — is it running?', 'error');
+    document.getElementById('lastUpdated').textContent = 'Connection error';
+  }
+})();
+</script>
+</body>
+</html>
