@@ -228,7 +228,7 @@ career-ops/
 
 ## 저자 소개
 
-Santiago입니다 -- Head of Applied AI, 전직 창업자 (직접 사업을 만들고 매각했으며, 아직도 제 이름으로 운영되고 있습니다). 제 취업 활동을 관리하기 위해 career-ops를 만들었습니다. 효과가 있었습니다: 이 시스템으로 현재 포지션에 합격했습니다.
+저는 Srikar입니다 — 소프트웨어 엔지니어이자 빌더. 저의 취업 활동을 처음부터 끝까지 자동화하기 위해 career-ops를 만들었습니다. 효과가 있었습니다: 이 시스템으로 현재 포지션에 합격했습니다.
 
 포트폴리오 및 기타 오픈소스 프로젝트 → [github.com/allampallysrikar](https://github.com/allampallysrikar)
 
