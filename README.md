@@ -281,7 +281,7 @@ career-ops/
 
 ## About the Author
 
-I'm Santiago -- Head of Applied AI, former founder (built and sold a business that still runs with my name on it). I built career-ops to manage my own job search. It worked: I used it to land my current role.
+I'm Srikar — a software engineer and builder. I built career-ops to automate my own job search from end to end. It worked: I used it to land my current role.
 
 My portfolio and other open source projects → [github.com/allampallysrikar](https://github.com/allampallysrikar)
 
