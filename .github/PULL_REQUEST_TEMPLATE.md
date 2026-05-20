@@ -17,12 +17,12 @@
 
 ## Checklist
 
-- [ ] I have read [CONTRIBUTING.md](https://github.com/allampallysrikar/career-ops/blob/main/CONTRIBUTING.md)
+- [ ] I have read [CONTRIBUTING.md](https://github.com/allampallysrikar/jobforge/blob/main/CONTRIBUTING.md)
 - [ ] I linked a related issue above (required for features and architecture changes)
 - [ ] My PR does not include personal data (CV, email, real names)
 - [ ] I ran `node test-all.mjs` and all tests pass
-- [ ] My changes respect the [Data Contract](https://github.com/allampallysrikar/career-ops/blob/main/DATA_CONTRACT.md) (no modifications to user-layer files)
-- [ ] My changes align with the [project roadmap](https://github.com/allampallysrikar/career-ops/discussions/156)
+- [ ] My changes respect the [Data Contract](https://github.com/allampallysrikar/jobforge/blob/main/DATA_CONTRACT.md) (no modifications to user-layer files)
+- [ ] My changes align with the [project roadmap](https://github.com/allampallysrikar/jobforge/discussions/156)
 
 ---
 Questions? open a GitHub Issue for faster feedback.
