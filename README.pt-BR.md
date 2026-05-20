@@ -228,7 +228,7 @@ career-ops/
 
 ## Sobre o autor
 
-Sou o Santiago -- Head of Applied AI, ex-fundador (criei e vendi uma empresa que ainda opera com meu nome). Eu construí o career-ops para gerenciar minha própria busca de emprego. Funcionou: usei o sistema para conquistar meu cargo atual.
+Sou o Srikar — engenheiro de software e criador. Construí o career-ops para automatizar minha própria busca de emprego do início ao fim. Funcionou: usei o sistema para conquistar meu cargo atual.
 
 Meu portfólio e outros projetos open source → [github.com/allampallysrikar](https://github.com/allampallysrikar)
 
