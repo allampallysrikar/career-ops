@@ -192,13 +192,13 @@ for (const f of userFiles) {
 console.log('\n6. Personal data leak check');
 
 const leakPatterns = [
-  'Santiago', 'github.com/allampallysrikar', 'Santifer iRepair', 'Zinkee', 'ALMAS',
+  'Srikar', 'github.com/allampallysrikar', 'Allampally', 'Srikar Allampally',
   'allampallysrikar@github.com', '688921377', '/Users/allampallysrikar/',
 ];
 
 const scanExtensions = ['md', 'yml', 'html', 'mjs', 'sh', 'go', 'json'];
 const allowedFiles = [
-  // English README + localized translations (all legitimately credit Santiago)
+  // English README + localized translations (all legitimately credit Srikar Allampally)
   'README.md', 'README.es.md', 'README.ja.md', 'README.ko-KR.md',
   'README.pt-BR.md', 'README.ru.md',
   // Standard project files
