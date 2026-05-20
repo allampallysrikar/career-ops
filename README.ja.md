@@ -229,7 +229,7 @@ career-ops/
 
 ## 作者について
 
-Santiagoです -- Head of Applied AI、元創業者（自分の名前を冠した事業を立ち上げて売却、その事業は今も稼働中）。career-opsは自分自身の求職活動を管理するために作りました。結果、現職を獲得することに成功しました。
+Srikarです — ソフトウェアエンジニア、ビルダー。自分自身の求職活動を自動化するためにcareer-opsを作りました。効果がありました：このシステムを使って現職を獲得しました。
 
 ポートフォリオと他のオープンソースプロジェクト → [github.com/allampallysrikar](https://github.com/allampallysrikar)
 
