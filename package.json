@@ -1,0 +1,70 @@
+{
+  "name": "jobforge",
+  "version": "2.2.0",
+  "description": "AI-powered job search pipeline built on Claude Code",
+  "scripts": {
+    "doctor": "node doctor.mjs",
+    "verify": "node verify-pipeline.mjs",
+    "normalize": "node normalize-statuses.mjs",
+    "dedup": "node dedup-tracker.mjs",
+    "merge": "node merge-tracker.mjs",
+    "pdf": "node generate-pdf.mjs",
+    "sync-check": "node cv-sync-check.mjs",
+    "update:check": "node update-system.mjs check",
+    "update": "node update-system.mjs apply",
+    "rollback": "node update-system.mjs rollback",
+    "liveness": "node check-liveness.mjs",
+    "scan": "node scan.mjs",
+    "gemini:eval": "node gemini-eval.mjs",
+    "resume:import": "node resume-import.mjs",
+    "tailor": "node auto-tailor.mjs",
+    "contacts:find": "node contact-finder.mjs",
+    "email:auth": "node send-email.mjs --auth",
+    "email:send": "node send-email.mjs",
+    "email:inbox": "node send-email.mjs --parse-inbox",
+    "scheduler:start": "node scheduler.mjs start",
+    "scheduler:now": "node scheduler.mjs run-now",
+    "scheduler:status": "node scheduler.mjs status",
+    "dashboard": "node dashboard-web/server.mjs",
+    "ats:check": "node ats-check.mjs",
+    "referrals:find": "node referral-finder.mjs",
+    "intel:check": "node company-intel.mjs",
+    "intel:report": "node company-intel.mjs --report",
+    "interview:prep": "node interview-prep.mjs",
+    "interview:list": "node interview-prep.mjs --list",
+    "cover:letter": "node cover-letter.mjs",
+    "cover:all": "node cover-letter.mjs --all",
+    "salary:bench": "node salary-bench.mjs",
+    "salary:all": "node salary-bench.mjs --all --report",
+    "gap:check": "node skills-gap.mjs",
+    "gap:all": "node skills-gap.mjs --all",
+    "gap:list": "node skills-gap.mjs --list",
+    "apply:linkedin": "node linkedin-apply.mjs",
+    "apply:all": "node linkedin-apply.mjs --all",
+    "apply:dry": "node linkedin-apply.mjs --all --dry-run",
+    "apply:status": "node linkedin-apply.mjs --status"
+  },
+  "keywords": [
+    "ai",
+    "job-search",
+    "claude-code",
+    "career",
+    "automation"
+  ],
+  "author": "Srikar Allampally <allampallysrikar@github.com> (https://github.com/allampallysrikar)",
+  "homepage": "https://github.com/allampallysrikar",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/allampallysrikar/jobforge"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.0.0",
+    "js-yaml": "^4.1.1",
+    "playwright": "^1.58.1"
+  }
+}
