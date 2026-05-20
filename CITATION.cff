@@ -3,8 +3,8 @@ message: "If you use career-ops, please cite it using these metadata."
 title: "Career-Ops: AI-Powered Job Search Pipeline"
 type: software
 authors:
-  - family-names: "Fernández de Valderrama"
-    given-names: "Santiago"
+  - family-names: "Allampally"
+    given-names: "Srikar"
     website: "https://github.com/allampallysrikar"
 url: "https://github.com/allampallysrikar"
 repository-code: "https://github.com/allampallysrikar/career-ops"
