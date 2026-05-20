@@ -1,6 +1,6 @@
-# Contributing to Career-Ops
+# Contributing to JobForge
 
-Thanks for your interest in contributing! Career-Ops is built with Claude Code, and you can use it for development too.
+Thanks for your interest in contributing! JobForge is built with Claude Code, and you can use it for development too.
 
 ## Before Submitting a PR
 
@@ -31,7 +31,7 @@ PRs without a corresponding issue may be closed if they don't align with the pro
 - Translate modes to other languages
 - Improve documentation
 - Add example CVs for different roles (in `examples/`)
-- Report bugs via [Issues](https://github.com/allampallysrikar/career-ops/issues)
+- Report bugs via [Issues](https://github.com/allampallysrikar/jobforge/issues)
 
 **Bigger contributions:**
 - New evaluation dimensions or scoring logic
@@ -49,7 +49,7 @@ PRs without a corresponding issue may be closed if they don't align with the pro
 ## What we do NOT accept
 
 - **PRs that scrape platforms prohibiting automated access** (LinkedIn, etc.). We actively reject these to respect third-party ToS.
-- **PRs that enable auto-submitting applications** without human review. career-ops is a decision-support tool, not a spam bot.
+- **PRs that enable auto-submitting applications** without human review. JobForge is a decision-support tool, not a spam bot.
 - **PRs that add external API dependencies** without prior discussion in an issue.
 - **PRs containing personal data** (real CVs, emails, phone numbers). Use `examples/` with fictional data instead.
 
@@ -69,7 +69,7 @@ cd dashboard && go build -o career-dashboard .
 ## Brand and Trademark
 
 Contributions to the codebase are governed by the MIT [LICENSE](LICENSE).
-The "career-ops" name itself is governed by [TRADEMARK.md](TRADEMARK.md).
+The "JobForge" name itself is governed by [TRADEMARK.md](TRADEMARK.md).
 If you fork the project for commercial use, you're welcome to do so
 under MIT — please give it your own product name and follow the
 trademark policy regarding commercial naming and endorsement claims.
@@ -77,5 +77,5 @@ trademark policy regarding commercial naming and endorsement claims.
 ## Need Help?
 
 - open a GitHub Issue — fastest way to get answers and connect with other contributors
-- [Open an issue](https://github.com/allampallysrikar/career-ops/issues)
+- [Open an issue](https://github.com/allampallysrikar/jobforge/issues)
 - [Read the architecture docs](docs/ARCHITECTURE.md)
