@@ -231,7 +231,7 @@ career-ops/
 
 ## 關於作者
 
-我是 Santiago — Head of Applied AI，前創業者（創建並出售了一家至今仍以我名字營運的公司）。我打造 career-ops 是為了管理自己的求職過程，並成功用它找到了現在這份工作。
+我是 Srikar — 軟體工程師與開發者。我打造 career-ops 是為了將自己的求職過程從頭到尾自動化，並成功用它找到了現在這份工作。
 
 個人作品集與其他開源專案 → [github.com/allampallysrikar](https://github.com/allampallysrikar)
 
