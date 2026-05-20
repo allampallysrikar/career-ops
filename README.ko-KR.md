@@ -1,9 +1,9 @@
-# Career-Ops
+# JobForge
 
 [English](README.md) | [Español](README.es.md) | [Português (Brasil)](README.pt-BR.md) | [한국어](README.ko-KR.md) | [日本語](README.ja.md) | [Русский](README.ru.md) | [简体中文](README.cn.md) | [繁體中文](README.zh-TW.md)
 
 <p align="center">
-  <a href="https://x.com/allampallysrikar"><img src="docs/hero-banner.jpg" alt="Career-Ops -- 멀티 에이전트 취업 시스템" width="800"></a>
+  <a href="https://x.com/allampallysrikar"><img src="docs/hero-banner.jpg" alt="JobForge -- 멀티 에이전트 취업 시스템" width="800"></a>
 </p>
 
 <p align="center">
@@ -32,7 +32,7 @@
 ---
 
 <p align="center">
-  <img src="docs/demo.gif" alt="Career-Ops 데모" width="800">
+  <img src="docs/demo.gif" alt="JobForge 데모" width="800">
 </p>
 
 <p align="center"><strong>740개 이상의 채용 공고 평가 · 100개 이상의 맞춤형 이력서 생성 · 꿈의 직장 1곳 합격</strong></p>
@@ -41,7 +41,7 @@
 
 ## 이게 뭔가요
 
-Career-Ops는 AI 코딩 CLI를 취업 활동 전체를 관리하는 커맨드 센터로 바꿔줍니다. 스프레드시트에서 수동으로 지원 현황을 관리하는 대신, AI 파이프라인이 알아서 처리합니다:
+JobForge는 AI 코딩 CLI를 취업 활동 전체를 관리하는 커맨드 센터로 바꿔줍니다. 스프레드시트에서 수동으로 지원 현황을 관리하는 대신, AI 파이프라인이 알아서 처리합니다:
 
 - **공고 평가** -- 구조화된 A-F 스코어링 (10개 가중 평가 항목)
 - **맞춤형 PDF 생성** -- JD별로 최적화된 ATS 이력서
@@ -55,7 +55,7 @@ Career-ops는 에이전트 기반으로 작동합니다: Claude Code가 Playwrig
 
 > **참고: 처음 몇 번의 평가는 정확하지 않을 수 있습니다.** 시스템이 아직 당신을 모르기 때문입니다. 이력서, 커리어 스토리, 주요 성과, 선호도, 잘하는 것, 피하고 싶은 것 등 맥락을 알려주세요. 정보를 줄수록 더 정확해집니다. 새로운 리크루터를 온보딩한다고 생각하세요: 첫 주는 당신을 파악하는 시간이고, 그 이후부터 진가를 발휘합니다.
 
-740개 이상의 채용 공고를 평가하고, 100개 이상의 맞춤 이력서를 생성하여, Head of Applied AI 포지션에 합격한 사람이 직접 만들었습니다. [전체 케이스 스터디 읽기](https://github.com/allampallysrikar/career-ops-system).
+740개 이상의 채용 공고를 평가하고, 100개 이상의 맞춤 이력서를 생성하여, Head of Applied AI 포지션에 합격한 사람이 직접 만들었습니다. [전체 케이스 스터디 읽기](https://github.com/allampallysrikar/jobforge-system).
 
 ## 주요 기능
 
@@ -76,8 +76,8 @@ Career-ops는 에이전트 기반으로 작동합니다: Claude Code가 Playwrig
 
 ```bash
 # 1. 클론 및 설치
-git clone https://github.com/allampallysrikar/career-ops.git
-cd career-ops && npm install
+git clone https://github.com/allampallysrikar/jobforge.git
+cd jobforge && npm install
 npx playwright install chromium   # PDF 렌더링을 위한 브라우저 엔진 설치
 
 # 2. 설정 확인
@@ -100,7 +100,7 @@ claude   # 이 디렉토리에서 Claude Code 실행
 # "Update my profile with this CV I'm pasting"
 
 # 6. 사용 시작
-# 채용 공고 URL을 붙여넣거나 /career-ops 실행
+# 채용 공고 URL을 붙여넣거나 /JobForge 실행
 ```
 
 > **이 시스템은 Claude가 직접 커스터마이즈하도록 설계되었습니다.** 모드, 아키타입, 스코어링 가중치, 협상 스크립트 -- 그냥 요청하세요. Claude가 사용하는 파일을 직접 읽기 때문에, 무엇을 수정해야 하는지 정확히 알고 있습니다.
@@ -112,21 +112,21 @@ claude   # 이 디렉토리에서 Claude Code 실행
 Career-ops는 다양한 모드를 가진 하나의 슬래시 커맨드입니다:
 
 ```
-/career-ops                → 사용 가능한 모든 명령어 표시
-/career-ops {JD 붙여넣기}  → 전체 자동 파이프라인 (평가 + PDF + 트래커)
-/career-ops scan           → 포털에서 새 공고 스캔
-/career-ops pdf            → ATS 최적화 이력서 생성
-/career-ops batch          → 여러 공고 일괄 평가
-/career-ops tracker        → 지원 현황 확인
-/career-ops apply          → AI로 지원서 양식 작성
-/career-ops pipeline       → 대기 중인 URL 처리
-/career-ops contacto       → LinkedIn 아웃리치 메시지
-/career-ops deep           → 기업 심층 리서치
-/career-ops training       → 교육 및 자격증 가치 평가
-/career-ops project        → 포트폴리오 프로젝트 평가
+/JobForge                → 사용 가능한 모든 명령어 표시
+/JobForge {JD 붙여넣기}  → 전체 자동 파이프라인 (평가 + PDF + 트래커)
+/JobForge scan           → 포털에서 새 공고 스캔
+/JobForge pdf            → ATS 최적화 이력서 생성
+/JobForge batch          → 여러 공고 일괄 평가
+/JobForge tracker        → 지원 현황 확인
+/JobForge apply          → AI로 지원서 양식 작성
+/JobForge pipeline       → 대기 중인 URL 처리
+/JobForge contacto       → LinkedIn 아웃리치 메시지
+/JobForge deep           → 기업 심층 리서치
+/JobForge training       → 교육 및 자격증 가치 평가
+/JobForge project        → 포트폴리오 프로젝트 평가
 ```
 
-채용 공고 URL이나 설명을 바로 붙여넣어도 됩니다 -- career-ops가 자동으로 감지하여 전체 파이프라인을 실행합니다.
+채용 공고 URL이나 설명을 바로 붙여넣어도 됩니다 -- JobForge가 자동으로 감지하여 전체 파이프라인을 실행합니다.
 
 ## 작동 원리
 
@@ -179,7 +179,7 @@ go build -o career-dashboard .
 ## 프로젝트 구조
 
 ```
-career-ops/
+JobForge/
 ├── CLAUDE.md                    # 에이전트 지시사항
 ├── cv.md                        # 내 이력서 (직접 생성)
 ├── article-digest.md            # 주요 성과 정리 (선택)
@@ -228,23 +228,23 @@ career-ops/
 
 ## 저자 소개
 
-저는 Srikar입니다 — 소프트웨어 엔지니어이자 빌더. 저의 취업 활동을 처음부터 끝까지 자동화하기 위해 career-ops를 만들었습니다. 효과가 있었습니다: 이 시스템으로 현재 포지션에 합격했습니다.
+저는 Srikar입니다 — 소프트웨어 엔지니어이자 빌더. 저의 취업 활동을 처음부터 끝까지 자동화하기 위해 JobForge를 만들었습니다. 효과가 있었습니다: 이 시스템으로 현재 포지션에 합격했습니다.
 
 포트폴리오 및 기타 오픈소스 프로젝트 → [github.com/allampallysrikar](https://github.com/allampallysrikar)
 
 ## Star History
 
-<a href="https://www.star-history.com/?repos=allampallysrikar%2Fcareer-ops&type=timeline&legend=top-left">
+<a href="https://www.star-history.com/?repos=allampallysrikar%2FJobForge&type=timeline&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/career-ops&type=timeline&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/career-ops&type=timeline&legend=top-left" />
-   <img alt="Star History 차트" src="https://api.star-history.com/chart?repos=allampallysrikar/career-ops&type=timeline&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/jobforge&type=timeline&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/jobforge&type=timeline&legend=top-left" />
+   <img alt="Star History 차트" src="https://api.star-history.com/chart?repos=allampallysrikar/jobforge&type=timeline&legend=top-left" />
  </picture>
 </a>
 
 ## 면책 조항
 
-**career-ops는 로컬 오픈소스 도구이며, 별도의 호스팅 서비스가 아닙니다.** 이 소프트웨어를 사용함으로써 다음 사항에 동의하는 것으로 간주됩니다:
+**JobForge는 로컬 오픈소스 도구이며, 별도의 호스팅 서비스가 아닙니다.** 이 소프트웨어를 사용함으로써 다음 사항에 동의하는 것으로 간주됩니다:
 
 1. **데이터 주권:** 모든 데이터는 사용자의 로컬 머신에 머물며, 선택한 AI 프로바이더와 직접 통신합니다. 이력서, 연락처, 개인정보는 사용자의 컴퓨터에 저장되며, 선택한 AI 제공사 (Anthropic, OpenAI 등)에게만 직접 전송됩니다. 저희는 어떤 데이터도 수집, 저장, 접근하지 않습니다.
 2. **AI 제어는 사용자 책임입니다.** 기본 프롬프트는 AI가 지원서를 자동 제출하지 않도록 설정되어 있으나, AI 모델은 예측 불가능하게 동작할 수 있습니다. 프롬프트를 수정하거나 다른 모델을 사용하는 경우 사용자의 책임입니다. **제출 전에 항상 AI가 생성한 콘텐츠의 정확성을 확인하세요.**
