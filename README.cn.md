@@ -1,9 +1,9 @@
-# Career-Ops
+# JobForge
 
 [English](README.md) | [Español](README.es.md) | [Português (Brasil)](README.pt-BR.md) | [한국어](README.ko-KR.md) | [日本語](README.ja.md) | [Русский](README.ru.md) | [简体中文](README.cn.md) | [繁體中文](README.zh-TW.md)
 
 <p align="center">
-  <a href="https://x.com/allampallysrikar"><img src="docs/hero-banner.jpg" alt="Career-Ops — 多代理求职系统" width="800"></a>
+  <a href="https://x.com/allampallysrikar"><img src="docs/hero-banner.jpg" alt="JobForge — 多代理求职系统" width="800"></a>
 </p>
 
 <p align="center">
@@ -35,7 +35,7 @@
 ---
 
 <p align="center">
-  <img src="docs/demo.gif" alt="Career-Ops 演示" width="800">
+  <img src="docs/demo.gif" alt="JobForge 演示" width="800">
 </p>
 
 <p align="center"><strong>评估超过 740 个职位 · 生成超过 100 份个性化简历 · 成功拿下理想职位</strong></p>
@@ -44,7 +44,7 @@
 
 ## 这是什么
 
-Career-Ops 可以把任何 AI 编码 CLI 变成完整的求职指挥中心。你不需要再手动用电子表格追踪申请流程，而是获得一个 AI 驱动的管道，能够：
+JobForge 可以把任何 AI 编码 CLI 变成完整的求职指挥中心。你不需要再手动用电子表格追踪申请流程，而是获得一个 AI 驱动的管道，能够：
 
 - **评估职位**，使用结构化的 A-F 评分系统（10 个加权维度）
 - **生成定制 PDF**，针对每份职位描述输出 ATS 优化简历
@@ -52,13 +52,13 @@ Career-Ops 可以把任何 AI 编码 CLI 变成完整的求职指挥中心。你
 - **批量处理**，通过子代理并行评估 10 份以上职位
 - **集中管理一切**，用单一事实来源配合完整性检查
 
-> **重要：这不是海投工具。** career-ops 是一个过滤器，帮你从数百个职位里找出真正值得投入时间的少数机会。系统强烈建议不要申请评分低于 4.0/5 的职位。你的时间很宝贵，招聘方的时间也一样。提交前一定要自己复核。
+> **重要：这不是海投工具。** JobForge 是一个过滤器，帮你从数百个职位里找出真正值得投入时间的少数机会。系统强烈建议不要申请评分低于 4.0/5 的职位。你的时间很宝贵，招聘方的时间也一样。提交前一定要自己复核。
 
-career-ops 具备代理式工作能力：Claude Code 会用 Playwright 浏览招聘页面，通过推理你的简历与职位描述是否匹配来评估契合度，而不是只做关键词匹配；同时它也会根据每个职位调整你的简历。
+JobForge 具备代理式工作能力：Claude Code 会用 Playwright 浏览招聘页面，通过推理你的简历与职位描述是否匹配来评估契合度，而不是只做关键词匹配；同时它也会根据每个职位调整你的简历。
 
 > **提醒：最开始几次评估不会特别准。** 系统还不了解你。请给它更多上下文，比如你的简历、职业故事、成果证明、个人偏好、擅长的事、想避开的事。你喂给它的信息越多，它就越准确。把它当成在培养一个新招聘顾问：第一周它需要先了解你，之后就会变得非常有价值。
 
-这个系统的作者曾用它评估 740 多个职位、生成 100 多份定制简历，并拿到一份 Head of Applied AI 的工作。[阅读完整案例研究](https://github.com/allampallysrikar/career-ops-system)。
+这个系统的作者曾用它评估 740 多个职位、生成 100 多份定制简历，并拿到一份 Head of Applied AI 的工作。[阅读完整案例研究](https://github.com/allampallysrikar/jobforge-system)。
 
 ## 功能特性
 
@@ -79,8 +79,8 @@ career-ops 具备代理式工作能力：Claude Code 会用 Playwright 浏览招
 
 ```bash
 # 1. 克隆并安装
-git clone https://github.com/allampallysrikar/career-ops.git
-cd career-ops && npm install
+git clone https://github.com/allampallysrikar/jobforge.git
+cd jobforge && npm install
 npx playwright install chromium   # 生成 PDF 所需
 
 # 2. 检查环境
@@ -103,7 +103,7 @@ claude   # 在当前目录打开 Claude Code
 # "用我贴过来的这份简历更新个人档案"
 
 # 6. 开始使用
-# 粘贴一个职位 URL，或运行 /career-ops
+# 粘贴一个职位 URL，或运行 /JobForge
 ```
 
 > **这个系统本来就是设计给 Claude 直接定制的。** modes、职业原型、评分权重、谈判脚本，直接告诉 Claude 要改什么就行。Claude 读取的正是它自己会使用的那些文件，所以它知道该改哪里。
@@ -112,7 +112,7 @@ claude   # 在当前目录打开 Claude Code
 
 ## Gemini CLI 集成
 
-career-ops 原生支持 [Gemini CLI](https://github.com/google-gemini/gemini-cli) —— 与 Claude Code 和 OpenCode 的支持方式相同。所有 15 个斜杠命令均可使用，并基于相同的 `modes/*.md` 评估逻辑。
+JobForge 原生支持 [Gemini CLI](https://github.com/google-gemini/gemini-cli) —— 与 Claude Code 和 OpenCode 的支持方式相同。所有 15 个斜杠命令均可使用，并基于相同的 `modes/*.md` 评估逻辑。
 
 ### 选项 A —— 原生 Gemini CLI（推荐）
 
@@ -124,16 +124,16 @@ npm install -g @google/gemini-cli
 # 2. 认证（免费 —— 使用你的 Google 账号）
 gemini auth
 
-# 3. 在 career-ops 目录中运行
-cd career-ops
+# 3. 在 JobForge 目录中运行
+cd jobforge
 gemini
 
 # 4. 像 Claude Code 一样使用斜杠命令
-/career-ops "Anthropic 的资深 AI 工程师..."
-/career-ops-evaluate --file ./jds/openai.txt
-/career-ops-scan
-/career-ops-pdf
-/career-ops-tracker
+/JobForge "Anthropic 的资深 AI 工程师..."
+/JobForge-evaluate --file ./jds/openai.txt
+/JobForge-scan
+/JobForge-pdf
+/JobForge-tracker
 ```
 
 `GEMINI.md` 文件会自动作为上下文加载。所有 15 个命令都定义在 `.gemini/commands/*.toml` 中。
@@ -158,24 +158,24 @@ npm run gemini:eval -- "职位描述文本"
 
 ## 用法
 
-career-ops 是一个单一斜杠命令，带有多种模式：
+JobForge 是一个单一斜杠命令，带有多种模式：
 
 ```
-/career-ops                → 显示所有可用命令
-/career-ops {粘贴职位描述}  → 完整自动管道（评估 + PDF + 追踪）
-/career-ops scan           → 扫描平台上的新职位
-/career-ops pdf            → 生成 ATS 优化简历
-/career-ops batch          → 批量评估多个职位
-/career-ops tracker        → 查看申请状态
-/career-ops apply          → 用 AI 协助填写申请表
-/career-ops pipeline       → 处理待办 URL
-/career-ops contacto       → 生成 LinkedIn 外联消息
-/career-ops deep           → 深度公司研究
-/career-ops training       → 评估课程/证书
-/career-ops project        → 评估作品集项目
+/JobForge                → 显示所有可用命令
+/JobForge {粘贴职位描述}  → 完整自动管道（评估 + PDF + 追踪）
+/JobForge scan           → 扫描平台上的新职位
+/JobForge pdf            → 生成 ATS 优化简历
+/JobForge batch          → 批量评估多个职位
+/JobForge tracker        → 查看申请状态
+/JobForge apply          → 用 AI 协助填写申请表
+/JobForge pipeline       → 处理待办 URL
+/JobForge contacto       → 生成 LinkedIn 外联消息
+/JobForge deep           → 深度公司研究
+/JobForge training       → 评估课程/证书
+/JobForge project        → 评估作品集项目
 ```
 
-或者直接粘贴职位 URL 或职位描述，career-ops 会自动识别并运行完整流程。
+或者直接粘贴职位 URL 或职位描述，JobForge 会自动识别并运行完整流程。
 
 ## 工作原理
 
@@ -228,7 +228,7 @@ go build -o career-dashboard .
 ## 项目结构
 
 ```
-career-ops/
+JobForge/
 ├── CLAUDE.md                    # 代理说明
 ├── cv.md                        # 你的简历（需要自行创建）
 ├── article-digest.md            # 你的成果证明（可选）
@@ -277,23 +277,23 @@ career-ops/
 
 ## 关于作者
 
-我是 Srikar — 软件工程师和构建者。我构建 career-ops 是为了将我自己的求职流程从头到尾自动化。它确实奏效了：我用它拿到了现在这份工作。
+我是 Srikar — 软件工程师和构建者。我构建 JobForge 是为了将我自己的求职流程从头到尾自动化。它确实奏效了：我用它拿到了现在这份工作。
 
 我的作品集和其他开源项目 → [github.com/allampallysrikar](https://github.com/allampallysrikar)
 
 ## Star 历史
 
-<a href="https://www.star-history.com/?repos=allampallysrikar%2Fcareer-ops&type=timeline&legend=top-left">
+<a href="https://www.star-history.com/?repos=allampallysrikar%2FJobForge&type=timeline&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/career-ops&type=timeline&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/career-ops&type=timeline&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=allampallysrikar/career-ops&type=timeline&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/jobforge&type=timeline&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/jobforge&type=timeline&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=allampallysrikar/jobforge&type=timeline&legend=top-left" />
  </picture>
 </a>
 
 ## 免责声明
 
-**career-ops 是一个本地开源工具，不是托管服务。** 使用本软件即表示你确认：
+**JobForge 是一个本地开源工具，不是托管服务。** 使用本软件即表示你确认：
 
 1. **数据由你掌控。** 你的简历、联系方式和个人数据都保留在你的设备上，并直接发送给你选择的 AI 提供商（Anthropic、OpenAI 等）。我们不会收集、存储或访问你的任何数据。
 2. **AI 由你掌控。** 默认提示词会明确要求 AI 不要自动提交申请，但 AI 模型的行为可能不可预测。如果你修改提示词或使用不同模型，风险由你自行承担。**提交前务必核查 AI 生成内容的准确性。**
@@ -304,15 +304,15 @@ career-ops/
 
 ## 贡献者
 
-<a href="https://github.com/allampallysrikar/career-ops/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=allampallysrikar/career-ops" />
+<a href="https://github.com/allampallysrikar/jobforge/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=allampallysrikar/jobforge" />
 </a>
 
-通过 career-ops 成功入职？[分享你的故事！](https://github.com/allampallysrikar/career-ops/issues/new?template=i-got-hired.yml)
+通过 JobForge 成功入职？[分享你的故事！](https://github.com/allampallysrikar/jobforge/issues/new?template=i-got-hired.yml)
 
 ## 许可证与商标
 
-代码以 [MIT](LICENSE) 许可证授权。"career-ops" 名称及品牌受 [商标政策](TRADEMARK.md) 约束 —— 允许社区使用，商业产品命名和背书需保留权利。
+代码以 [MIT](LICENSE) 许可证授权。"JobForge" 名称及品牌受 [商标政策](TRADEMARK.md) 约束 —— 允许社区使用，商业产品命名和背书需保留权利。
 
 ## 联系我们
 
