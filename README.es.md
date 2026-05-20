@@ -1,9 +1,9 @@
-# Career-Ops
+# JobForge
 
 [English](README.md) | [Español](README.es.md) | [Português (Brasil)](README.pt-BR.md) | [한국어](README.ko-KR.md) | [日本語](README.ja.md) | [Русский](README.ru.md) | [简体中文](README.cn.md) | [繁體中文](README.zh-TW.md)
 
 <p align="center">
-  <a href="https://x.com/allampallysrikar"><img src="docs/hero-banner.jpg" alt="Career-Ops — Sistema Multi-Agente de Busqueda de Empleo" width="800"></a>
+  <a href="https://x.com/allampallysrikar"><img src="docs/hero-banner.jpg" alt="JobForge — Sistema Multi-Agente de Busqueda de Empleo" width="800"></a>
 </p>
 
 <p align="center">
@@ -32,7 +32,7 @@
 ---
 
 <p align="center">
-  <img src="docs/demo.gif" alt="Career-Ops Demo" width="800">
+  <img src="docs/demo.gif" alt="JobForge Demo" width="800">
 </p>
 
 <p align="center"><strong>740+ ofertas evaluadas · 100+ CVs personalizados · 1 trabajo soñado conseguido</strong></p>
@@ -41,7 +41,7 @@
 
 ## Que es esto
 
-Career-Ops convierte cualquier CLI de IA en un centro de mando de busqueda de empleo. En vez de trackear aplicaciones en un spreadsheet, tienes un pipeline AI que:
+JobForge convierte cualquier CLI de IA en un centro de mando de busqueda de empleo. En vez de trackear aplicaciones en un spreadsheet, tienes un pipeline AI que:
 
 - **Evalua ofertas** con scoring estructurado A-F (10 dimensiones ponderadas)
 - **Genera PDFs personalizados** -- CVs ATS-optimizados por oferta
@@ -53,7 +53,7 @@ Career-Ops convierte cualquier CLI de IA en un centro de mando de busqueda de em
 
 > **Aviso: las primeras evaluaciones no seran buenas.** El sistema no te conoce todavia. Dale contexto -- tu CV, tu historia profesional, tus proof points, tus preferencias, en que eres bueno, que quieres evitar. Cuanto mas lo nutras, mejor filtra. Piensa en ello como hacer onboarding a un recruiter nuevo: la primera semana necesita conocerte, luego se vuelve invaluable.
 
-Construido por alguien que lo uso para evaluar 740+ ofertas, generar 100+ CVs personalizados, y conseguir un rol de Head of Applied AI. [Lee el case study completo](https://github.com/allampallysrikar/career-ops).
+Construido por alguien que lo uso para evaluar 740+ ofertas, generar 100+ CVs personalizados, y conseguir un rol de Head of Applied AI. [Lee el case study completo](https://github.com/allampallysrikar/jobforge).
 
 ## Features
 
@@ -74,8 +74,8 @@ Construido por alguien que lo uso para evaluar 740+ ofertas, generar 100+ CVs pe
 
 ```bash
 # 1. Clonar e instalar
-git clone https://github.com/allampallysrikar/career-ops.git
-cd career-ops && npm install
+git clone https://github.com/allampallysrikar/jobforge.git
+cd jobforge && npm install
 npx playwright install chromium   # Necesario para generar PDFs
 
 # 2. Verificar setup
@@ -98,7 +98,7 @@ claude   # Abrir Claude Code en este directorio
 # "Actualiza mi perfil con este CV que te pego"
 
 # 6. Usar
-# Pega una URL de oferta o ejecuta /career-ops
+# Pega una URL de oferta o ejecuta /JobForge
 ```
 
 > **El sistema esta diseñado para que Claude lo personalice.** Modes, arquetipos, scoring, scripts de negociacion -- solo pidelo. Claude lee los mismos archivos que usa, asi que sabe exactamente que editar.
@@ -110,19 +110,19 @@ Guia completa en [docs/SETUP.md](docs/SETUP.md).
 Career-ops es un unico slash command con multiples modos:
 
 ```
-/career-ops                → Mostrar todos los comandos
-/career-ops {pega un JD}   → Pipeline completo (evaluar + PDF + tracker)
-/career-ops scan           → Escanear portales
-/career-ops pdf            → Generar CV ATS-optimizado
-/career-ops batch          → Evaluar ofertas en batch
-/career-ops tracker        → Ver estado de aplicaciones
-/career-ops apply          → Rellenar formularios con IA
-/career-ops pipeline       → Procesar URLs pendientes
-/career-ops contacto       → Mensaje LinkedIn outreach
-/career-ops deep           → Research profundo de empresa
+/JobForge                → Mostrar todos los comandos
+/JobForge {pega un JD}   → Pipeline completo (evaluar + PDF + tracker)
+/JobForge scan           → Escanear portales
+/JobForge pdf            → Generar CV ATS-optimizado
+/JobForge batch          → Evaluar ofertas en batch
+/JobForge tracker        → Ver estado de aplicaciones
+/JobForge apply          → Rellenar formularios con IA
+/JobForge pipeline       → Procesar URLs pendientes
+/JobForge contacto       → Mensaje LinkedIn outreach
+/JobForge deep           → Research profundo de empresa
 ```
 
-O simplemente pega una URL o descripcion de oferta -- career-ops la detecta y ejecuta el pipeline completo.
+O simplemente pega una URL o descripcion de oferta -- JobForge la detecta y ejecuta el pipeline completo.
 
 ## Como funciona
 
@@ -176,7 +176,7 @@ Features: 6 pestañas de filtro, 4 modos de ordenacion, vista agrupada/plana, pr
 ## Estructura del proyecto
 
 ```
-career-ops/
+JobForge/
 ├── AGENTS.md                    # Instrucciones canónicas del agente (todos los CLIs)
 ├── CLAUDE.md                    # Wrapper Claude Code (importa AGENTS.md)
 ├── cv.md                        # Tu CV (crealo tu)
@@ -222,7 +222,7 @@ career-ops/
 
 ## Sobre el autor
 
-Soy Srikar — ingeniero de software y creador. Construí career-ops para automatizar mi propia búsqueda de empleo de principio a fin. Funcionó: lo usé para conseguir mi puesto actual.
+Soy Srikar — ingeniero de software y creador. Construí JobForge para automatizar mi propia búsqueda de empleo de principio a fin. Funcionó: lo usé para conseguir mi puesto actual.
 
 Mi portfolio y otros proyectos open source → [github.com/allampallysrikar](https://github.com/allampallysrikar)
 
@@ -238,17 +238,17 @@ Mi portfolio y otros proyectos open source → [github.com/allampallysrikar](htt
 
 ## Star History
 
-<a href="https://www.star-history.com/?repos=allampallysrikar%2Fcareer-ops&type=timeline&legend=top-left">
+<a href="https://www.star-history.com/?repos=allampallysrikar%2FJobForge&type=timeline&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/career-ops&type=timeline&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/career-ops&type=timeline&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=allampallysrikar/career-ops&type=timeline&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/jobforge&type=timeline&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=allampallysrikar/jobforge&type=timeline&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=allampallysrikar/jobforge&type=timeline&legend=top-left" />
  </picture>
 </a>
 
 ## Aviso legal
 
-**career-ops es una herramienta local y open source — NO un servicio alojado.** Al usar este software, aceptas que:
+**JobForge es una herramienta local y open source — NO un servicio alojado.** Al usar este software, aceptas que:
 
 1. **Tu controlas tus datos.** Tu CV, datos de contacto e informacion personal se quedan en tu maquina y se envian directamente al proveedor de IA que elijas (Anthropic, OpenAI, etc.). No recopilamos, almacenamos ni tenemos acceso a tus datos.
 2. **Tu controlas la IA.** Los prompts por defecto instruyen a la IA a no enviar aplicaciones automaticamente, pero los modelos pueden comportarse de forma impredecible. Si modificas los prompts o usas otros modelos, lo haces bajo tu responsabilidad. **Revisa siempre el contenido generado antes de enviarlo.**
