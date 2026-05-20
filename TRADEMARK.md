@@ -17,8 +17,7 @@ the source code.
 The MIT license grants broad freedoms to use, copy, modify, and
 redistribute the source code. It does not grant rights to the name
 "career-ops," its visual identity, or any associated brand assets.
-Those are reserved by the project's maintainer, Santiago Fernández de
-Valderrama, and any successor entity stewarding the project.
+Those are reserved by the project's maintainer, Srikar Allampally, and any successor entity stewarding the project.
 
 This is the model used by PostgreSQL, Apache, Mozilla, GitLab, and
 most mature open-source projects: the code is free, the brand is
